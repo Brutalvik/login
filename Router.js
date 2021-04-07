@@ -16,7 +16,7 @@ class Router {
 
             username = username.toLowerCase();
 
-            if(username.length > 30 || password.length > 30) {
+            if(username.length > 12 || password.length > 12) {
                 res.json({
                     success: false,
                     msg: 'An error occurred, please try again'
@@ -25,7 +25,7 @@ class Router {
             }
 
             let cols = [username];
-            db.query('SELECT * FROM user WHERE username = ? LIMIT 1', cols, (err, data, fields) => {
+            db.query('SELECT * FROM student WHERE username = ? LIMIT 1', cols, (err, data, fields) => {
                if(err) {
                    res.json({
                        success: false,
@@ -83,13 +83,11 @@ class Router {
 
     }
 
-
-
     isLoggedIn(app, db) {
         app.post('/isLoggedIn', (req, res) => {
             if(req.session.userID) {
                 let cols = [req.session.userID];
-                db.query('SELECT * FROM user WHERE id = ? LIMIT 1', cols, (err, data, fields) => {
+                db.query('SELECT * FROM student WHERE id = ? LIMIT 1', cols, (err, data, fields) => {
                    if (data && data.length === 1) {
                        res.json({
                            success: true,
